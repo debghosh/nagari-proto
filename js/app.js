@@ -202,6 +202,12 @@ function updateUIForAuthState() {
         guestActions.style.display = 'flex';
         userProfile.style.display = 'none';
     }
+    
+    // Reload content sections to show/hide action buttons based on auth state
+    if (window.loadEventsSection) loadEventsSection();
+    if (window.loadClassifiedsSection) loadClassifiedsSection();
+    if (window.loadMarketplaceSection) loadMarketplaceSection();
+    if (window.loadPeopleSection) loadPeopleSection();
 }
 
 function requireAuth(action) {

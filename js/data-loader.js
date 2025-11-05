@@ -10,6 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function createActionButtons(itemId, itemType, itemTitle, includeRSVP = false, eventDate = null) {
+    // Check if user is authenticated
+    const isAuth = portalApp.isAuthenticated();
+    
+    if (!isAuth) {
+        // Return empty buttons for non-authenticated users
+        return { actionButtons: '', rsvpButton: '' };
+    }
+    
     const favoriteIcon = portalApp.isItemFavorited(itemId) ? '❤️' : '🤍';
     const saveIcon = portalApp.isItemSaved(itemId) ? '🔖' : '📌';
     
@@ -290,3 +298,9 @@ function loadPeopleSection() {
         </div>
     `;
 }
+
+// Export functions to window for access from other scripts
+window.loadEventsSection = loadEventsSection;
+window.loadClassifiedsSection = loadClassifiedsSection;
+window.loadMarketplaceSection = loadMarketplaceSection;
+window.loadPeopleSection = loadPeopleSection;

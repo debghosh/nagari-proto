@@ -38,11 +38,11 @@
                         <span class="profile-name">User</span>
                     </div>
                     <div class="profile-dropdown">
-                        <a href="#dashboard">📊 Dashboard</a>
-                        <a href="#my-events">📅 My Events</a>
-                        <a href="#messages">💬 Messages</a>
-                        <a href="#profile">👤 Profile</a>
-                        <a href="#settings">⚙️ Settings</a>
+                        <a href="#dashboard" onclick="event.preventDefault(); var user = portalApp.getCurrentUser(); if(user) { dashboard.init(user); dashboard.showDashboard(); } else { portalApp.showNotification('Please login first', 'warning'); }">📊 Dashboard</a>
+                        <a href="#my-events" onclick="event.preventDefault(); portalApp.showNotification('Feature coming soon!', 'info')">📅 My Events</a>
+                        <a href="#messages" onclick="event.preventDefault(); portalApp.showNotification('Feature coming soon!', 'info')">💬 Messages</a>
+                        <a href="#profile" onclick="event.preventDefault(); portalApp.showNotification('Feature coming soon!', 'info')">👤 Profile</a>
+                        <a href="#settings" onclick="event.preventDefault(); portalApp.showNotification('Feature coming soon!', 'info')">⚙️ Settings</a>
                         <a href="#" onclick="portalApp.handleLogout(); return false;">🚪 Logout</a>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                         <li>Community Outreach</li>
                         <li>Senior Support Services</li>
                     </ul>
-                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Login to apply for volunteer positions')">View Opportunities</button>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="portalApp.requireAuth('View volunteer opportunities')">View Opportunities</button>
                 </div>
 
                 <!-- Civic Engagement -->
@@ -147,7 +147,7 @@
                         <li>Public Comment Periods</li>
                         <li>Elected Officials Directory</li>
                     </ul>
-                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Access civic resources')">Get Started</button>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="portalApp.requireAuth('Access civic resources')">Get Started</button>
                 </div>
 
                 <!-- Public Services -->
@@ -162,7 +162,7 @@
                         <li>Job & Career Services</li>
                         <li>Healthcare Enrollment</li>
                     </ul>
-                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Explore public services')">Learn More</button>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="portalApp.requireAuth('Explore public services')">Learn More</button>
                 </div>
 
                 <!-- Community Leadership -->
@@ -177,7 +177,7 @@
                         <li>Fundraising Initiatives</li>
                         <li>Partnership Development</li>
                     </ul>
-                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Login to apply for leadership roles')">Apply Now</button>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="portalApp.requireAuth('Apply for leadership roles')">Apply Now</button>
                 </div>
 
                 <!-- Professional Networking -->
@@ -207,7 +207,7 @@
                         <li>Dance & Music Performances</li>
                         <li>Interfaith Dialogue</li>
                     </ul>
-                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Login to become a cultural ambassador')">Become Ambassador</button>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="portalApp.requireAuth('Become a cultural ambassador')">Become Ambassador</button>
                 </div>
             </div>
         </div>
@@ -295,9 +295,9 @@
                     <small style="color: var(--text-muted); font-size: 0.85rem;">Minimum 8 characters</small>
                 </div>
                 <div class="form-group">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <label class="checkbox-label">
                         <input type="checkbox" required>
-                        <span style="font-weight: normal; font-size: 0.9rem;">I agree to the <a href="#" style="color: var(--primary-orange);">Terms of Service</a> and <a href="#" style="color: var(--primary-orange);">Privacy Policy</a></span>
+                        <span>I agree to the <a href="#" style="color: var(--primary-orange);">Terms of Service</a> and <a href="#" style="color: var(--primary-orange);">Privacy Policy</a></span>
                     </label>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>

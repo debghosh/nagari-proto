@@ -9,6 +9,11 @@ let currentView = 'cards';
 let isAuthenticated = false;
 let currentUser = null;
 
+// User Data State
+let userSavedItems = [];
+let userFavorites = [];
+let userRSVPs = [];
+
 // ================================================
 // Authentication Functions
 // ================================================
@@ -21,7 +26,24 @@ function checkAuth() {
     if (token && user) {
         isAuthenticated = true;
         currentUser = JSON.parse(user);
+        loadUserData();
         updateUIForAuthState();
+    }
+}
+
+function loadUserData() {
+    // Load user's saved items, favorites, and RSVPs from localStorage
+    userSavedItems = JSON.parse(localStorage.getItem('userSavedItems_' + currentUser.id)) || [];
+    userFavorites = JSON.parse(localStorage.getItem('userFavorites_' + currentUser.id)) || [];
+    userRSVPs = JSON.parse(localStorage.getItem('userRSVPs_' + currentUser.id)) || [];
+}
+
+function saveUserData() {
+    // Save user data to localStorage
+    if (currentUser) {
+        localStorage.setItem('userSavedItems_' + currentUser.id, JSON.stringify(userSavedItems));
+        localStorage.setItem('userFavorites_' + currentUser.id, JSON.stringify(userFavorites));
+        localStorage.setItem('userRSVPs_' + currentUser.id, JSON.stringify(userRSVPs));
     }
 }
 
@@ -90,7 +112,9 @@ function handleLogin(event) {
         isAuthenticated = true;
         currentUser = user;
         
+        loadUserData();
         updateUIForAuthState();
+        updateAllCardActions();
         closeAuthModal();
         
         // Initialize and show dashboard
@@ -129,7 +153,9 @@ function handleSignup(event) {
         isAuthenticated = true;
         currentUser = user;
         
+        loadUserData();
         updateUIForAuthState();
+        updateAllCardActions();
         closeAuthModal();
         
         // Initialize and show dashboard for new users
@@ -151,10 +177,14 @@ function handleLogout() {
     
     isAuthenticated = false;
     currentUser = null;
+    userSavedItems = [];
+    userFavorites = [];
+    userRSVPs = [];
     
     updateUIForAuthState();
+    updateAllCardActions();
     
-    alert('You have been logged out successfully.');
+    showNotification('You have been logged out successfully.', 'info');
 }
 
 function updateUIForAuthState() {
@@ -168,20 +198,20 @@ function updateUIForAuthState() {
         // Update user info
         document.querySelector('.profile-name').textContent = currentUser.name;
         document.querySelector('.profile-avatar').textContent = currentUser.avatar;
-        
-        // Add click handler to dashboard link in dropdown
-        const dashboardLink = document.querySelector('.profile-dropdown a[href="#dashboard"]');
-        if (dashboardLink) {
-            dashboardLink.onclick = function(e) {
-                e.preventDefault();
-                if (window.dashboard) {
-                    dashboard.showDashboard();
-                }
-            };
-        }
     } else {
         guestActions.style.display = 'flex';
         userProfile.style.display = 'none';
+    }
+}
+
+function requireAuth(action) {
+    if (isAuthenticated) {
+        showNotification(`${action} - Feature coming soon!`, 'info');
+    } else {
+        showNotification('Please login to ' + action.toLowerCase(), 'warning');
+        setTimeout(() => {
+            showAuthModal('login');
+        }, 500);
     }
 }
 
@@ -217,6 +247,174 @@ document.addEventListener('click', function(event) {
         dropdown.classList.remove('active');
     }
 });
+
+// ================================================
+// Favorite, Save, and RSVP Functions
+// ================================================
+
+function toggleFavorite(itemId, itemType, itemTitle) {
+    if (!isAuthenticated) {
+        showNotification('Please login to favorite items', 'warning');
+        setTimeout(() => {
+            showAuthModal('login');
+        }, 500);
+        return;
+    }
+    
+    const index = userFavorites.findIndex(item => item.id === itemId);
+    
+    if (index > -1) {
+        // Remove from favorites
+        userFavorites.splice(index, 1);
+        showNotification('Removed from favorites', 'info');
+    } else {
+        // Add to favorites
+        userFavorites.push({
+            id: itemId,
+            type: itemType,
+            title: itemTitle,
+            timestamp: Date.now()
+        });
+        showNotification('Added to favorites', 'success');
+    }
+    
+    saveUserData();
+    updateCardActions(itemId);
+    
+    // Update dashboard if open
+    if (window.dashboard && document.getElementById('userDashboard')?.classList.contains('active')) {
+        dashboard.init(currentUser);
+    }
+}
+
+function toggleSave(itemId, itemType, itemTitle) {
+    if (!isAuthenticated) {
+        showNotification('Please login to save items', 'warning');
+        setTimeout(() => {
+            showAuthModal('login');
+        }, 500);
+        return;
+    }
+    
+    const index = userSavedItems.findIndex(item => item.id === itemId);
+    
+    if (index > -1) {
+        // Remove from saved
+        userSavedItems.splice(index, 1);
+        showNotification('Removed from saved items', 'info');
+    } else {
+        // Add to saved
+        userSavedItems.push({
+            id: itemId,
+            type: itemType,
+            title: itemTitle,
+            timestamp: Date.now()
+        });
+        showNotification('Saved successfully', 'success');
+    }
+    
+    saveUserData();
+    updateCardActions(itemId);
+    
+    // Update dashboard if open
+    if (window.dashboard && document.getElementById('userDashboard')?.classList.contains('active')) {
+        dashboard.init(currentUser);
+    }
+}
+
+function toggleRSVP(eventId, eventTitle, eventDate) {
+    if (!isAuthenticated) {
+        showNotification('Please login to RSVP to events', 'warning');
+        setTimeout(() => {
+            showAuthModal('login');
+        }, 500);
+        return;
+    }
+    
+    const index = userRSVPs.findIndex(item => item.id === eventId);
+    
+    if (index > -1) {
+        // Remove RSVP
+        userRSVPs.splice(index, 1);
+        showNotification('RSVP cancelled', 'info');
+    } else {
+        // Add RSVP
+        userRSVPs.push({
+            id: eventId,
+            title: eventTitle,
+            date: eventDate,
+            timestamp: Date.now()
+        });
+        showNotification('RSVP confirmed! Event added to your calendar.', 'success');
+    }
+    
+    saveUserData();
+    updateCardActions(eventId);
+    
+    // Update dashboard if open
+    if (window.dashboard && document.getElementById('userDashboard')?.classList.contains('active')) {
+        dashboard.init(currentUser);
+    }
+}
+
+function isItemFavorited(itemId) {
+    return userFavorites.some(item => item.id === itemId);
+}
+
+function isItemSaved(itemId) {
+    return userSavedItems.some(item => item.id === itemId);
+}
+
+function isEventRSVPd(eventId) {
+    return userRSVPs.some(item => item.id === eventId);
+}
+
+function updateCardActions(itemId) {
+    const card = document.querySelector(`[data-item-id="${itemId}"]`);
+    if (!card) return;
+    
+    const favoriteBtn = card.querySelector('.favorite-btn');
+    const saveBtn = card.querySelector('.save-btn');
+    const rsvpBtn = card.querySelector('.rsvp-btn');
+    
+    if (favoriteBtn) {
+        if (isItemFavorited(itemId)) {
+            favoriteBtn.classList.add('active');
+            favoriteBtn.textContent = '❤️';
+        } else {
+            favoriteBtn.classList.remove('active');
+            favoriteBtn.textContent = '🤍';
+        }
+    }
+    
+    if (saveBtn) {
+        if (isItemSaved(itemId)) {
+            saveBtn.classList.add('active');
+            saveBtn.textContent = '🔖';
+        } else {
+            saveBtn.classList.remove('active');
+            saveBtn.textContent = '📌';
+        }
+    }
+    
+    if (rsvpBtn) {
+        if (isEventRSVPd(itemId)) {
+            rsvpBtn.classList.add('going');
+            rsvpBtn.textContent = '✓ Going';
+        } else {
+            rsvpBtn.classList.remove('going');
+            rsvpBtn.textContent = 'RSVP';
+        }
+    }
+}
+
+function updateAllCardActions() {
+    const allCards = document.querySelectorAll('[data-item-id]');
+    allCards.forEach(card => {
+        const itemId = card.getAttribute('data-item-id');
+        updateCardActions(itemId);
+    });
+}
 
 // ================================================
 // Category & Content Navigation Functions
@@ -396,6 +594,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Update all card actions on load
+    updateAllCardActions();
+    
     console.log('Indian Community Portal initialized');
 });
 
@@ -417,5 +618,20 @@ window.portalApp = {
     handleSignup,
     handleLogout,
     toggleProfileDropdown,
-    performSearch
+    performSearch,
+    requireAuth,
+    toggleFavorite,
+    toggleSave,
+    toggleRSVP,
+    isItemFavorited,
+    isItemSaved,
+    isEventRSVPd,
+    updateCardActions,
+    updateAllCardActions,
+    showNotification,
+    getUserRSVPs: () => userRSVPs,
+    getUserSavedItems: () => userSavedItems,
+    getUserFavorites: () => userFavorites,
+    getCurrentUser: () => currentUser,
+    isAuthenticated: () => isAuthenticated
 };

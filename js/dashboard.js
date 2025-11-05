@@ -16,6 +16,16 @@ class Dashboard {
     }
 
     loadDashboard() {
+        // Get user data
+        const userRSVPs = portalApp.getUserRSVPs();
+        const userSavedItems = portalApp.getUserSavedItems();
+        const userFavorites = portalApp.getUserFavorites();
+        
+        // Separate upcoming and past events
+        const now = Date.now();
+        const upcomingRSVPs = userRSVPs.filter(rsvp => new Date(rsvp.date).getTime() > now);
+        const pastRSVPs = userRSVPs.filter(rsvp => new Date(rsvp.date).getTime() <= now);
+        
         // Create dashboard overlay
         const dashboardHTML = `
             <div id="userDashboard" class="dashboard-overlay">
@@ -31,104 +41,53 @@ class Dashboard {
                             <h3>📊 Your Activity</h3>
                             <div class="stats-grid">
                                 <div class="stat-item">
-                                    <div class="stat-number">5</div>
+                                    <div class="stat-number">${upcomingRSVPs.length}</div>
+                                    <div class="stat-label">Upcoming Events</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">${pastRSVPs.length}</div>
                                     <div class="stat-label">Events Attended</div>
                                 </div>
                                 <div class="stat-item">
-                                    <div class="stat-number">12</div>
-                                    <div class="stat-label">Hours Volunteered</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number">3</div>
+                                    <div class="stat-number">${userSavedItems.length}</div>
                                     <div class="stat-label">Items Saved</div>
                                 </div>
                                 <div class="stat-item">
-                                    <div class="stat-number">8</div>
-                                    <div class="stat-label">Connections</div>
+                                    <div class="stat-number">${userFavorites.length}</div>
+                                    <div class="stat-label">Favorites</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Recommended Events -->
-                        <div class="dashboard-card recommendations-card">
-                            <h3>✨ Recommended for You</h3>
-                            <div class="recommendations-list">
-                                <div class="rec-item">
-                                    <span class="rec-icon">🎵</span>
-                                    <div class="rec-content">
-                                        <h4>Classical Music Workshop</h4>
-                                        <p>Based on your interest in music</p>
-                                    </div>
-                                    <button class="btn btn-sm btn-primary">RSVP</button>
-                                </div>
-                                <div class="rec-item">
-                                    <span class="rec-icon">🧘</span>
-                                    <div class="rec-content">
-                                        <h4>Yoga Retreat Weekend</h4>
-                                        <p>Popular in your area</p>
-                                    </div>
-                                    <button class="btn btn-sm btn-primary">RSVP</button>
-                                </div>
-                                <div class="rec-item">
-                                    <span class="rec-icon">🙋</span>
-                                    <div class="rec-content">
-                                        <h4>Volunteer: Food Drive</h4>
-                                        <p>Help your community</p>
-                                    </div>
-                                    <button class="btn btn-sm btn-primary">Sign Up</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Upcoming Events (My RSVPs) -->
+                        <!-- Your Upcoming Events (RSVPs) -->
                         <div class="dashboard-card upcoming-card">
                             <h3>📅 Your Upcoming Events</h3>
                             <div class="upcoming-list">
-                                <div class="upcoming-item">
-                                    <div class="upcoming-date">
-                                        <div class="date-day">15</div>
-                                        <div class="date-month">DEC</div>
-                                    </div>
-                                    <div class="upcoming-details">
-                                        <h4>Carnatic Music Concert</h4>
-                                        <p>📍 Cary Arts Center • 7:00 PM</p>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline">View</button>
-                                </div>
-                                <div class="upcoming-item">
-                                    <div class="upcoming-date">
-                                        <div class="date-day">10</div>
-                                        <div class="date-month">JAN</div>
-                                    </div>
-                                    <div class="upcoming-details">
-                                        <h4>Cooking Class</h4>
-                                        <p>📍 Chapel Hill • 6:00 PM</p>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline">View</button>
-                                </div>
+                                ${this.renderUpcomingEvents(upcomingRSVPs)}
                             </div>
-                            <button class="btn btn-link">View All →</button>
+                        </div>
+
+                        <!-- Past Events -->
+                        <div class="dashboard-card upcoming-card">
+                            <h3>✅ Past Events Attended</h3>
+                            <div class="upcoming-list">
+                                ${this.renderPastEvents(pastRSVPs)}
+                            </div>
                         </div>
 
                         <!-- Saved Items -->
                         <div class="dashboard-card saved-card">
                             <h3>💾 Saved Items</h3>
                             <div class="saved-list">
-                                <div class="saved-item">
-                                    <span class="saved-type">Event</span>
-                                    <span class="saved-name">Diwali Celebration</span>
-                                    <button class="btn-icon">🗑️</button>
-                                </div>
-                                <div class="saved-item">
-                                    <span class="saved-type">Service</span>
-                                    <span class="saved-name">Tabla Lessons</span>
-                                    <button class="btn-icon">🗑️</button>
-                                </div>
-                                <div class="saved-item">
-                                    <span class="saved-type">Org</span>
-                                    <span class="saved-name">Tamil Sangam</span>
-                                    <button class="btn-icon">🗑️</button>
-                                </div>
+                                ${this.renderSavedItems(userSavedItems)}
+                            </div>
+                        </div>
+
+                        <!-- Favorites -->
+                        <div class="dashboard-card saved-card">
+                            <h3>❤️ Favorites</h3>
+                            <div class="saved-list">
+                                ${this.renderFavorites(userFavorites)}
                             </div>
                         </div>
 
@@ -136,38 +95,10 @@ class Dashboard {
                         <div class="dashboard-card actions-card">
                             <h3>⚡ Quick Actions</h3>
                             <div class="action-buttons">
-                                <button class="btn btn-primary btn-block">📝 Create Event</button>
-                                <button class="btn btn-secondary btn-block">📢 Post Classified</button>
-                                <button class="btn btn-secondary btn-block">🛍️ List Item for Sale</button>
-                                <button class="btn btn-secondary btn-block">🙋 Volunteer Sign-up</button>
-                            </div>
-                        </div>
-
-                        <!-- Community Feed -->
-                        <div class="dashboard-card feed-card">
-                            <h3>📰 Community Updates</h3>
-                            <div class="feed-list">
-                                <div class="feed-item">
-                                    <div class="feed-avatar">RS</div>
-                                    <div class="feed-content">
-                                        <p><strong>Raleigh Music Society</strong> posted a new event</p>
-                                        <span class="feed-time">2 hours ago</span>
-                                    </div>
-                                </div>
-                                <div class="feed-item">
-                                    <div class="feed-avatar">PS</div>
-                                    <div class="feed-content">
-                                        <p><strong>Priya Sharma</strong> is offering new dance classes</p>
-                                        <span class="feed-time">5 hours ago</span>
-                                    </div>
-                                </div>
-                                <div class="feed-item">
-                                    <div class="feed-avatar">TS</div>
-                                    <div class="feed-content">
-                                        <p><strong>Tamil Sangam</strong> announced Pongal celebration</p>
-                                        <span class="feed-time">1 day ago</span>
-                                    </div>
-                                </div>
+                                <button class="btn btn-primary btn-block" onclick="portalApp.showNotification('Create Event - Feature coming soon!', 'info')">📝 Create Event</button>
+                                <button class="btn btn-secondary btn-block" onclick="portalApp.showNotification('Post Classified - Feature coming soon!', 'info')">📢 Post Classified</button>
+                                <button class="btn btn-secondary btn-block" onclick="portalApp.showNotification('List Item for Sale - Feature coming soon!', 'info')">🛍️ List Item for Sale</button>
+                                <button class="btn btn-secondary btn-block" onclick="portalApp.showNotification('Volunteer Sign-up - Feature coming soon!', 'info')">🙋 Volunteer Sign-up</button>
                             </div>
                         </div>
                     </div>
@@ -178,10 +109,98 @@ class Dashboard {
         // Add to body if not exists
         if (!document.getElementById('userDashboard')) {
             document.body.insertAdjacentHTML('beforeend', dashboardHTML);
+        } else {
+            // Update existing dashboard
+            document.getElementById('userDashboard').outerHTML = dashboardHTML;
         }
     }
 
+    renderUpcomingEvents(events) {
+        if (events.length === 0) {
+            return '<div class="empty-state"><h4>No upcoming events</h4><p>RSVP to events to see them here!</p></div>';
+        }
+        
+        return events.map(event => {
+            const eventDate = new Date(event.date);
+            const day = eventDate.getDate();
+            const month = eventDate.toLocaleString('default', { month: 'short' }).toUpperCase();
+            
+            return `
+                <div class="upcoming-item">
+                    <div class="upcoming-date">
+                        <div class="date-day">${day}</div>
+                        <div class="date-month">${month}</div>
+                    </div>
+                    <div class="upcoming-details">
+                        <h4>${event.title}</h4>
+                        <p>${eventDate.toLocaleDateString()}</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline" onclick="dashboard.closeDashboard(); portalApp.showNotification('View event details - Feature coming soon!', 'info')">View</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    renderPastEvents(events) {
+        if (events.length === 0) {
+            return '<div class="empty-state"><h4>No past events</h4><p>Events you attended will appear here.</p></div>';
+        }
+        
+        return events.map(event => {
+            const eventDate = new Date(event.date);
+            const day = eventDate.getDate();
+            const month = eventDate.toLocaleString('default', { month: 'short' }).toUpperCase();
+            
+            return `
+                <div class="upcoming-item">
+                    <div class="upcoming-date" style="background: #6C757D;">
+                        <div class="date-day">${day}</div>
+                        <div class="date-month">${month}</div>
+                    </div>
+                    <div class="upcoming-details">
+                        <h4>${event.title}</h4>
+                        <p>${eventDate.toLocaleDateString()}</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline" onclick="dashboard.closeDashboard(); portalApp.showNotification('View event details - Feature coming soon!', 'info')">View</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    renderSavedItems(items) {
+        if (items.length === 0) {
+            return '<div class="empty-state"><h4>No saved items</h4><p>Save items to access them quickly here!</p></div>';
+        }
+        
+        return items.map(item => `
+            <div class="saved-item" onclick="dashboard.closeDashboard()">
+                <span class="saved-type">${item.type}</span>
+                <span class="saved-name">${item.title}</span>
+                <button class="btn-icon" onclick="event.stopPropagation(); portalApp.toggleSave('${item.id}', '${item.type}', '${item.title.replace(/'/g, "\\'")}'); dashboard.init(dashboard.user);">🗑️</button>
+            </div>
+        `).join('');
+    }
+
+    renderFavorites(items) {
+        if (items.length === 0) {
+            return '<div class="empty-state"><h4>No favorites</h4><p>Add items to your favorites to see them here!</p></div>';
+        }
+        
+        return items.map(item => `
+            <div class="saved-item" onclick="dashboard.closeDashboard()">
+                <span class="saved-type">${item.type}</span>
+                <span class="saved-name">${item.title}</span>
+                <button class="btn-icon" onclick="event.stopPropagation(); portalApp.toggleFavorite('${item.id}', '${item.type}', '${item.title.replace(/'/g, "\\'")}'); dashboard.init(dashboard.user);">🗑️</button>
+            </div>
+        `).join('');
+    }
+
     showDashboard() {
+        // Reload dashboard with fresh data
+        if (this.user) {
+            this.loadDashboard();
+        }
+        
         const dashboardEl = document.getElementById('userDashboard');
         if (dashboardEl) {
             dashboardEl.classList.add('active');
@@ -195,42 +214,6 @@ class Dashboard {
             dashboardEl.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
-    }
-
-    // Personalized content filtering
-    getRecommendations() {
-        // Based on user interests and history
-        const userInterests = this.user.preferences || ['music', 'yoga'];
-        
-        // Filter events matching interests
-        const allEvents = document.querySelectorAll('.event-card');
-        const recommended = [];
-        
-        allEvents.forEach(event => {
-            const tags = Array.from(event.querySelectorAll('.event-tag'))
-                .map(tag => tag.textContent.toLowerCase());
-            
-            const matches = tags.some(tag => 
-                userInterests.some(interest => tag.includes(interest))
-            );
-            
-            if (matches) {
-                recommended.push(event);
-            }
-        });
-
-        return recommended;
-    }
-
-    // Highlight saved items
-    highlightSavedItems() {
-        const savedIds = ['event_123', 'event_456']; // From user profile
-        savedIds.forEach(id => {
-            const card = document.querySelector(`[data-id="${id}"]`);
-            if (card) {
-                card.classList.add('saved');
-            }
-        });
     }
 }
 

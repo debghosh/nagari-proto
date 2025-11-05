@@ -3,727 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Indian Community Portal - Connect, celebrate, and thrive together in the Triangle Area, NC">
+    <meta name="keywords" content="Indian community, Triangle Area, Raleigh, Durham, Chapel Hill, events, culture">
     <title>IN Triangle Desi - Indian Community Portal</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-orange: #E87722;
-            --primary-blue: #2E5090;
-            --bg-light: #F8F9FA;
-            --text-dark: #212529;
-            --text-muted: #6C757D;
-            --border-color: #E0E0E0;
-            --shadow: 0 2px 12px rgba(0,0,0,0.08);
-            --shadow-hover: 0 4px 20px rgba(0,0,0,0.12);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-        }
-
-        /* Header */
-        header {
-            background: white;
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }
-
-        .logo span {
-            color: var(--primary-orange);
-        }
-
-        .search-container {
-            flex: 1;
-            max-width: 600px;
-            position: relative;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 0.75rem 3rem 0.75rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .search-bar:focus {
-            border-color: var(--primary-orange);
-            box-shadow: 0 0 0 3px rgba(232, 119, 34, 0.1);
-        }
-
-        .ai-search-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--primary-orange);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-
-        .ai-search-btn:hover {
-            background: #d66a1a;
-            transform: translateY(-50%) scale(1.05);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .btn {
-            padding: 0.65rem 1.25rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .btn-outline {
-            background: white;
-            color: var(--primary-orange);
-            border-color: var(--primary-orange);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary-orange);
-            color: white;
-        }
-
-        .btn-primary {
-            background: var(--primary-orange);
-            color: white;
-            border-color: var(--primary-orange);
-        }
-
-        .btn-primary:hover {
-            background: #d66a1a;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Category Navigation */
-        .category-nav {
-            display: flex;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-        }
-
-        .category-nav::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .category-nav::-webkit-scrollbar-track {
-            background: var(--bg-light);
-        }
-
-        .category-nav::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 2px;
-        }
-
-        .category-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .category-btn:hover {
-            border-color: var(--primary-orange);
-            transform: translateY(-2px);
-        }
-
-        .category-btn.active {
-            background: var(--primary-orange);
-            color: white;
-            border-color: var(--primary-orange);
-        }
-
-        /* Content Type Tabs */
-        .content-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0;
-        }
-
-        .content-tab {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 1.5rem;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-        }
-
-        .content-tab:hover {
-            color: var(--primary-orange);
-        }
-
-        .content-tab.active {
-            color: var(--primary-orange);
-            border-bottom-color: var(--primary-orange);
-        }
-
-        /* Content Sections */
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        /* View Controls */
-        .view-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .view-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 0.5rem;
-            background: white;
-            padding: 0.25rem;
-            border-radius: 25px;
-            box-shadow: var(--shadow);
-        }
-
-        .view-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .view-btn.active {
-            background: var(--primary-orange);
-            color: white;
-        }
-
-        /* Events Grid */
-        .events-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .event-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .event-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .event-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #E87722 0%, #2E5090 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-        }
-
-        .event-content {
-            padding: 1.5rem;
-        }
-
-        .event-date {
-            display: inline-block;
-            background: var(--primary-orange);
-            color: white;
-            padding: 0.4rem 0.9rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .event-card h3 {
-            font-size: 1.25rem;
-            color: var(--primary-blue);
-            margin-bottom: 0.75rem;
-        }
-
-        .event-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .event-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .event-tag {
-            background: var(--bg-light);
-            padding: 0.35rem 0.85rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            color: var(--text-dark);
-        }
-
-        /* Calendar View */
-        .calendar-container {
-            display: none;
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-        }
-
-        .calendar-container.active {
-            display: block;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .calendar-header h3 {
-            font-size: 1.5rem;
-            color: var(--primary-blue);
-        }
-
-        .calendar-nav {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .calendar-nav button {
-            padding: 0.5rem 1rem;
-            background: var(--primary-orange);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .calendar-nav button:hover {
-            background: #d66a1a;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            background: var(--border-color);
-            border: 1px solid var(--border-color);
-        }
-
-        .calendar-day {
-            background: white;
-            padding: 0.75rem;
-            min-height: 100px;
-            position: relative;
-        }
-
-        .calendar-day-header {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-            font-size: 0.85rem;
-        }
-
-        .calendar-event {
-            background: var(--primary-orange);
-            color: white;
-            padding: 0.35rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            margin-bottom: 0.35rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .calendar-event:hover {
-            background: #d66a1a;
-        }
-
-        /* AI Assistant */
-        .ai-assistant {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 650px;
-            max-height: calc(100vh - 60px);
-            height: 600px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: none;
-            flex-direction: column;
-            z-index: 2000;
-            overflow: hidden;
-        }
-
-        .ai-assistant.active {
-            display: flex;
-        }
-
-        .ai-header {
-            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-blue) 100%);
-            color: white;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .ai-header h3 {
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .ai-close {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .ai-close:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        .ai-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-            min-height: 0;
-        }
-
-        .ai-sidebar {
-            width: 150px;
-            background: var(--bg-light);
-            padding: 1rem;
-            border-right: 1px solid var(--border-color);
-            overflow-y: auto;
-            flex-shrink: 0;
-        }
-
-        .ai-sidebar h4 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .quick-action {
-            background: white;
-            padding: 0.6rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.8rem;
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .quick-action:hover {
-            border-color: var(--primary-orange);
-            transform: translateX(2px);
-        }
-
-        .ai-chat {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .ai-messages {
-            flex: 1;
-            padding: 1.5rem;
-            padding-top: 1rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            min-height: 0;
-        }
-
-        .ai-message {
-            display: flex;
-            gap: 0.75rem;
-            animation: slideIn 0.3s ease;
-            align-items: flex-start;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .ai-avatar {
-            width: 32px;
-            height: 32px;
-            min-width: 32px;
-            min-height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-orange), var(--primary-blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .ai-message-content {
-            background: var(--bg-light);
-            padding: 0.85rem;
-            border-radius: 12px;
-            max-width: 80%;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .user-message {
-            flex-direction: row-reverse;
-        }
-
-        .user-message .ai-message-content {
-            background: var(--primary-orange);
-            color: white;
-        }
-
-        .ai-input-container {
-            padding: 1rem;
-            border-top: 1px solid var(--border-color);
-            background: white;
-            flex-shrink: 0;
-        }
-
-        .ai-input-wrapper {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .ai-input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .ai-input:focus {
-            border-color: var(--primary-orange);
-        }
-
-        .ai-send {
-            background: var(--primary-orange);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 0.75rem 1.25rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .ai-send:hover {
-            background: #d66a1a;
-        }
-
-        .ai-fab {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-blue) 100%);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            z-index: 1999;
-        }
-
-        .ai-fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(0,0,0,0.4);
-        }
-
-        .ai-fab.hidden {
-            display: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-wrap: wrap;
-            }
-
-            .search-container {
-                order: 3;
-                width: 100%;
-            }
-
-            .category-nav {
-                overflow-x: auto;
-            }
-
-            .ai-assistant {
-                width: calc(100% - 40px);
-                right: 20px;
-                bottom: 20px;
-            }
-
-            .ai-sidebar {
-                width: 120px;
-            }
-
-            .events-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png">
 </head>
 <body>
     <!-- Header -->
     <header>
         <div class="header-content">
-            <div class="logo">
+            <div class="logo" onclick="window.location.reload()">
                 <span>IN</span> Triangle Desi
             </div>
             <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search events, people, organizations...">
-                <button class="ai-search-btn" onclick="toggleAI()">🤖</button>
+                <input type="text" id="globalSearch" class="search-bar" placeholder="Search events, people, organizations...">
+                <button class="ai-search-btn" onclick="portalApp.toggleAI()">🤖</button>
             </div>
             <div class="header-actions">
-                <button class="btn btn-outline">+ Submit</button>
-                <button class="btn btn-primary">+ Event</button>
+                <!-- Guest Actions -->
+                <div class="guest-actions" style="display: flex; gap: 0.75rem;">
+                    <button class="btn btn-outline" onclick="portalApp.showAuthModal('login')">Login</button>
+                    <button class="btn btn-primary" onclick="portalApp.showAuthModal('signup')">Sign Up</button>
+                </div>
+                
+                <!-- Authenticated User Profile -->
+                <div class="user-profile" style="display: none;">
+                    <div class="profile-btn" onclick="portalApp.toggleProfileDropdown()">
+                        <div class="profile-avatar">U</div>
+                        <span class="profile-name">User</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="#dashboard">📊 Dashboard</a>
+                        <a href="#my-events">📅 My Events</a>
+                        <a href="#messages">💬 Messages</a>
+                        <a href="#profile">👤 Profile</a>
+                        <a href="#settings">⚙️ Settings</a>
+                        <a href="#" onclick="portalApp.handleLogout(); return false;">🚪 Logout</a>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -732,742 +54,268 @@
     <div class="container">
         <!-- Category Navigation -->
         <div class="category-nav">
-            <button class="category-btn active" onclick="switchCategory('all')">
+            <button class="category-btn active" onclick="portalApp.switchCategory('all')">
                 ☀️ All
             </button>
-            <button class="category-btn" onclick="switchCategory('art')">
+            <button class="category-btn" onclick="portalApp.switchCategory('art')">
                 🎨 Art
             </button>
-            <button class="category-btn" onclick="switchCategory('culture')">
+            <button class="category-btn" onclick="portalApp.switchCategory('culture')">
                 🪔 Culture
             </button>
-            <button class="category-btn" onclick="switchCategory('health')">
+            <button class="category-btn" onclick="portalApp.switchCategory('health')">
                 🧘 Health & Healing
             </button>
-            <button class="category-btn" onclick="switchCategory('faith')">
+            <button class="category-btn" onclick="portalApp.switchCategory('faith')">
                 🕉️ Faith & Religion
             </button>
-            <button class="category-btn" onclick="switchCategory('culinary')">
+            <button class="category-btn" onclick="portalApp.switchCategory('culinary')">
                 🍛 Culinary
             </button>
         </div>
 
         <!-- Content Type Tabs -->
         <div class="content-tabs">
-            <button class="content-tab active" onclick="switchContentType('events')">
+            <button class="content-tab active" onclick="portalApp.switchContentType('events')">
                 📅 Events
             </button>
-            <button class="content-tab" onclick="switchContentType('classifieds')">
+            <button class="content-tab" onclick="portalApp.switchContentType('classifieds')">
                 📢 Classifieds
             </button>
-            <button class="content-tab" onclick="switchContentType('marketplace')">
+            <button class="content-tab" onclick="portalApp.switchContentType('marketplace')">
                 🛍️ Marketplace
             </button>
-            <button class="content-tab" onclick="switchContentType('people')">
+            <button class="content-tab" onclick="portalApp.switchContentType('people')">
                 👥 People & Orgs
+            </button>
+            <button class="content-tab" onclick="portalApp.switchContentType('getinvolved')">
+                🤝 Get Involved
             </button>
         </div>
 
         <!-- Events Section -->
         <div id="events-section" class="content-section active">
-            <div class="view-controls">
-                <h2 class="view-title">Upcoming Events</h2>
-                <div class="view-toggle">
-                    <button class="view-btn active" onclick="switchView('cards')">
-                        🎴 Cards
-                    </button>
-                    <button class="view-btn" onclick="switchView('calendar')">
-                        📆 Calendar
-                    </button>
-                </div>
-            </div>
-
-            <!-- Cards View -->
-            <div id="cards-view" class="events-grid">
-                <!-- Art Events -->
-                <div class="event-card" data-category="art">
-                    <div class="event-image">🎵</div>
-                    <div class="event-content">
-                        <span class="event-date">Dec 15, 2024</span>
-                        <h3>Carnatic Music Concert</h3>
-                        <div class="event-meta">
-                            <span>📍 Cary Arts Center, Cary NC</span>
-                            <span>🕐 7:00 PM - 9:30 PM</span>
-                            <span>👤 Raleigh Classical Music Society</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Music</span>
-                            <span class="event-tag">Classical</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="art">
-                    <div class="event-image">💃</div>
-                    <div class="event-content">
-                        <span class="event-date">Dec 22, 2024</span>
-                        <h3>Bharatanatyam Workshop</h3>
-                        <div class="event-meta">
-                            <span>📍 Durham Community Center</span>
-                            <span>🕐 2:00 PM - 5:00 PM</span>
-                            <span>👤 Priya Sharma</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Dance</span>
-                            <span class="event-tag">Workshop</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="art">
-                    <div class="event-image">🎭</div>
-                    <div class="event-content">
-                        <span class="event-date">Feb 1, 2025</span>
-                        <h3>Hindi Theatre Production</h3>
-                        <div class="event-meta">
-                            <span>📍 Fletcher Opera Theater, Raleigh</span>
-                            <span>🕐 7:30 PM - 10:00 PM</span>
-                            <span>👤 RTP Theatre Group</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Theatre</span>
-                            <span class="event-tag">Hindi</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Culture Events -->
-                <div class="event-card" data-category="culture">
-                    <div class="event-image">🪔</div>
-                    <div class="event-content">
-                        <span class="event-date">Jan 1, 2025</span>
-                        <h3>Pongal Celebration</h3>
-                        <div class="event-meta">
-                            <span>📍 Morrisville Community Park</span>
-                            <span>🕐 10:00 AM - 4:00 PM</span>
-                            <span>👤 Tamil Sangam of RTP</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Festival</span>
-                            <span class="event-tag">Family</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Health Events -->
-                <div class="event-card" data-category="health">
-                    <div class="event-image">🧘</div>
-                    <div class="event-content">
-                        <span class="event-date">Jan 15, 2025</span>
-                        <h3>Yoga and Meditation Retreat</h3>
-                        <div class="event-meta">
-                            <span>📍 Jordan Lake Retreat Center</span>
-                            <span>🕐 9:00 AM - 5:00 PM</span>
-                            <span>👤 Dr. Anita Patel</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Yoga</span>
-                            <span class="event-tag">Wellness</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="health">
-                    <div class="event-image">🌿</div>
-                    <div class="event-content">
-                        <span class="event-date">Jan 20, 2025</span>
-                        <h3>Ayurveda Workshop</h3>
-                        <div class="event-meta">
-                            <span>📍 Wellness Center, Durham</span>
-                            <span>🕐 2:00 PM - 5:00 PM</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Ayurveda</span>
-                            <span class="event-tag">Health</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Faith Events -->
-                <div class="event-card" data-category="faith">
-                    <div class="event-image">🕉️</div>
-                    <div class="event-content">
-                        <span class="event-date">Jan 25, 2025</span>
-                        <h3>Bhagavad Gita Study Circle</h3>
-                        <div class="event-meta">
-                            <span>📍 Hindu Temple, Morrisville</span>
-                            <span>🕐 6:00 PM - 8:00 PM</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Spiritual</span>
-                            <span class="event-tag">Study</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="faith">
-                    <div class="event-image">🙏</div>
-                    <div class="event-content">
-                        <span class="event-date">Feb 5, 2025</span>
-                        <h3>Meditation & Kirtan Evening</h3>
-                        <div class="event-meta">
-                            <span>📍 ISKCON Temple, Cary</span>
-                            <span>🕐 7:00 PM - 9:00 PM</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Meditation</span>
-                            <span class="event-tag">Music</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Culinary Events -->
-                <div class="event-card" data-category="culinary">
-                    <div class="event-image">🍛</div>
-                    <div class="event-content">
-                        <span class="event-date">Jan 10, 2025</span>
-                        <h3>North Indian Cooking Class</h3>
-                        <div class="event-meta">
-                            <span>📍 Culinary Arts Studio, Chapel Hill</span>
-                            <span>🕐 6:00 PM - 8:30 PM</span>
-                            <span>👤 Chef Rajesh Kumar</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Cooking</span>
-                            <span class="event-tag">Workshop</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="culinary">
-                    <div class="event-image">🥘</div>
-                    <div class="event-content">
-                        <span class="event-date">Jan 18, 2025</span>
-                        <h3>South Indian Tiffin Workshop</h3>
-                        <div class="event-meta">
-                            <span>📍 Community Kitchen, Raleigh</span>
-                            <span>🕐 10:00 AM - 1:00 PM</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Cooking</span>
-                            <span class="event-tag">South Indian</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="culinary">
-                    <div class="event-image">🍰</div>
-                    <div class="event-content">
-                        <span class="event-date">Feb 8, 2025</span>
-                        <h3>Indian Desserts Masterclass</h3>
-                        <div class="event-meta">
-                            <span>📍 Baking Studio, Durham</span>
-                            <span>🕐 3:00 PM - 6:00 PM</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Desserts</span>
-                            <span class="event-tag">Baking</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Calendar View -->
-            <div id="calendar-view" class="calendar-container">
-                <div class="calendar-header">
-                    <h3>December 2024</h3>
-                    <div class="calendar-nav">
-                        <button>← Previous</button>
-                        <button>Next →</button>
-                    </div>
-                </div>
-                <div class="calendar-grid">
-                    <div class="calendar-day"><div class="calendar-day-header">Sun</div></div>
-                    <div class="calendar-day"><div class="calendar-day-header">Mon</div></div>
-                    <div class="calendar-day"><div class="calendar-day-header">Tue</div></div>
-                    <div class="calendar-day"><div class="calendar-day-header">Wed</div></div>
-                    <div class="calendar-day"><div class="calendar-day-header">Thu</div></div>
-                    <div class="calendar-day"><div class="calendar-day-header">Fri</div></div>
-                    <div class="calendar-day"><div class="calendar-day-header">Sat</div></div>
-                    
-                    <div class="calendar-day">1</div>
-                    <div class="calendar-day">2</div>
-                    <div class="calendar-day">3</div>
-                    <div class="calendar-day">4</div>
-                    <div class="calendar-day">5</div>
-                    <div class="calendar-day">6</div>
-                    <div class="calendar-day">7</div>
-                    <div class="calendar-day">8</div>
-                    <div class="calendar-day">9</div>
-                    <div class="calendar-day">10</div>
-                    <div class="calendar-day">11</div>
-                    <div class="calendar-day">12</div>
-                    <div class="calendar-day">13</div>
-                    <div class="calendar-day">14</div>
-                    <div class="calendar-day">
-                        15
-                        <div class="calendar-event">Carnatic Concert</div>
-                    </div>
-                    <div class="calendar-day">16</div>
-                    <div class="calendar-day">17</div>
-                    <div class="calendar-day">18</div>
-                    <div class="calendar-day">19</div>
-                    <div class="calendar-day">20</div>
-                    <div class="calendar-day">21</div>
-                    <div class="calendar-day">
-                        22
-                        <div class="calendar-event">Bharatanatyam</div>
-                    </div>
-                    <div class="calendar-day">23</div>
-                    <div class="calendar-day">24</div>
-                    <div class="calendar-day">25</div>
-                    <div class="calendar-day">26</div>
-                    <div class="calendar-day">27</div>
-                    <div class="calendar-day">28</div>
-                    <div class="calendar-day">29</div>
-                    <div class="calendar-day">30</div>
-                    <div class="calendar-day">31</div>
-                </div>
-            </div>
+            <!-- Content will be loaded from data file -->
         </div>
 
         <!-- Classifieds Section -->
         <div id="classifieds-section" class="content-section">
-            <div class="view-controls">
-                <h2 class="view-title">Classifieds</h2>
-            </div>
-            <div class="events-grid">
-                <div class="event-card" data-category="art">
-                    <div class="event-content">
-                        <span class="event-date" style="background: #138808;">OFFERED</span>
-                        <h3>Tabla Lessons Available</h3>
-                        <div class="event-meta">
-                            <span>Experienced tabla player offering lessons for beginners and intermediate students.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Music</span>
-                            <span class="event-tag">Teaching</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="art">
-                    <div class="event-content">
-                        <span class="event-date">NEEDED</span>
-                        <h3>Looking for Kathak Dance Teacher</h3>
-                        <div class="event-meta">
-                            <span>Seeking qualified Kathak dance instructor for 8-year-old daughter.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Dance</span>
-                            <span class="event-tag">Kids</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="culinary">
-                    <div class="event-content">
-                        <span class="event-date" style="background: #138808;">OFFERED</span>
-                        <h3>Home Cooked Indian Meals</h3>
-                        <div class="event-meta">
-                            <span>Authentic North and South Indian meals prepared fresh. Catering available.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Culinary</span>
-                            <span class="event-tag">Catering</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="health">
-                    <div class="event-content">
-                        <span class="event-date" style="background: #138808;">OFFERED</span>
-                        <h3>Ayurvedic Consultation</h3>
-                        <div class="event-meta">
-                            <span>Certified Ayurvedic practitioner offering personalized wellness consultations.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Health</span>
-                            <span class="event-tag">Ayurveda</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="faith">
-                    <div class="event-content">
-                        <span class="event-date" style="background: #138808;">OFFERED</span>
-                        <h3>Sanskrit & Vedic Studies Tutoring</h3>
-                        <div class="event-meta">
-                            <span>Qualified teacher offering Sanskrit language and Vedic philosophy lessons for all ages.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Education</span>
-                            <span class="event-tag">Spiritual</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="faith">
-                    <div class="event-content">
-                        <span class="event-date">NEEDED</span>
-                        <h3>Priest for Home Puja</h3>
-                        <div class="event-meta">
-                            <span>Looking for qualified priest to conduct Griha Pravesh ceremony in early January.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Religious Services</span>
-                            <span class="event-tag">Ceremony</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Content will be loaded from data file -->
         </div>
 
         <!-- Marketplace Section -->
         <div id="marketplace-section" class="content-section">
-            <div class="view-controls">
-                <h2 class="view-title">Marketplace</h2>
-            </div>
-            <div class="events-grid">
-                <div class="event-card" data-category="art">
-                    <div class="event-content">
-                        <span class="event-date">$350</span>
-                        <h3>Tabla Set - Like New</h3>
-                        <div class="event-meta">
-                            <span>Professional quality tabla set, barely used. Includes case, cushion, and maintenance tools.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Instruments</span>
-                            <span class="event-tag">Music</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="art">
-                    <div class="event-content">
-                        <span class="event-date">$45</span>
-                        <h3>Indian Classical Music Books</h3>
-                        <div class="event-meta">
-                            <span>Comprehensive guide to Hindustani classical music. Set of 5 books in excellent condition.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Books</span>
-                            <span class="event-tag">Education</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="art">
-                    <div class="event-content">
-                        <span class="event-date">$120</span>
-                        <h3>Bharatanatyam Dance Costume</h3>
-                        <div class="event-meta">
-                            <span>Beautiful silk costume in red and gold. Size medium. Worn only once for performance.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Costumes</span>
-                            <span class="event-tag">Dance</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="health">
-                    <div class="event-content">
-                        <span class="event-date">$25</span>
-                        <h3>Yoga Props Set</h3>
-                        <div class="event-meta">
-                            <span>Complete yoga props set including blocks, strap, bolster, and mat. Lightly used.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Health</span>
-                            <span class="event-tag">Yoga</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="faith">
-                    <div class="event-content">
-                        <span class="event-date">$150</span>
-                        <h3>Puja Items Collection</h3>
-                        <div class="event-meta">
-                            <span>Complete set of brass puja items including bells, diya, thali, and idols. Excellent condition.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Religious Items</span>
-                            <span class="event-tag">Brass</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-card" data-category="faith">
-                    <div class="event-content">
-                        <span class="event-date">$40</span>
-                        <h3>Bhagavad Gita Commentary Set</h3>
-                        <div class="event-meta">
-                            <span>Complete set of Bhagavad Gita with detailed Sanskrit-English commentary. Like new condition.</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Books</span>
-                            <span class="event-tag">Scripture</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Content will be loaded from data file -->
         </div>
 
         <!-- People & Orgs Section -->
         <div id="people-section" class="content-section">
+            <!-- Content will be loaded from data file -->
+        </div>
+
+        <!-- Get Involved Section -->
+        <div id="getinvolved-section" class="content-section">
             <div class="view-controls">
-                <h2 class="view-title">People & Organizations</h2>
+                <h2 class="view-title">Get Involved in Your Community</h2>
             </div>
-            <div class="events-grid">
-                <div class="event-card" data-category="art">
-                    <div class="event-image">👥</div>
-                    <div class="event-content">
-                        <h3>Raleigh Classical Music Society</h3>
-                        <div class="event-meta">
-                            <span>📍 Raleigh, NC</span>
-                            <span>Promoting Indian classical music in the Triangle area</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Organization</span>
-                            <span class="event-tag">Music</span>
-                        </div>
-                    </div>
+            
+            <div class="involvement-categories">
+                <!-- Volunteer Opportunities -->
+                <div class="involvement-card">
+                    <h3>🙋 Volunteer Opportunities</h3>
+                    <p>Make a difference in your community by volunteering your time and skills.</p>
+                    <ul>
+                        <li>Event Organization & Support</li>
+                        <li>Cultural Education Programs</li>
+                        <li>Youth Mentorship</li>
+                        <li>Language Classes</li>
+                        <li>Community Outreach</li>
+                        <li>Senior Support Services</li>
+                    </ul>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Login to apply for volunteer positions')">View Opportunities</button>
                 </div>
 
-                <div class="event-card" data-category="art">
-                    <div class="event-image">👤</div>
-                    <div class="event-content">
-                        <h3>Priya Sharma - Dance Instructor</h3>
-                        <div class="event-meta">
-                            <span>📍 Durham, NC</span>
-                            <span>Bharatanatyam and Kathak instructor with 20+ years experience</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Instructor</span>
-                            <span class="event-tag">Dance</span>
-                        </div>
-                    </div>
+                <!-- Civic Engagement -->
+                <div class="involvement-card">
+                    <h3>🗳️ Civic Engagement</h3>
+                    <p>Participate in local government and make your voice heard.</p>
+                    <ul>
+                        <li>Voter Registration & Information</li>
+                        <li>Local Election Calendar</li>
+                        <li>Town Hall Meetings</li>
+                        <li>Community Board Participation</li>
+                        <li>Public Comment Periods</li>
+                        <li>Elected Officials Directory</li>
+                    </ul>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Access civic resources')">Get Started</button>
                 </div>
 
-                <div class="event-card" data-category="culture">
-                    <div class="event-image">👥</div>
-                    <div class="event-content">
-                        <h3>Tamil Sangam of RTP</h3>
-                        <div class="event-meta">
-                            <span>📍 Morrisville, NC</span>
-                            <span>Preserving and promoting Tamil language and culture</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Organization</span>
-                            <span class="event-tag">Culture</span>
-                        </div>
-                    </div>
+                <!-- Public Services -->
+                <div class="involvement-card">
+                    <h3>🏛️ Public Services & Integration</h3>
+                    <p>Connect with essential services for successful community integration.</p>
+                    <ul>
+                        <li>Social Security Administration</li>
+                        <li>DMV & Driver's License Info</li>
+                        <li>Public Library Resources</li>
+                        <li>Adult Education Programs</li>
+                        <li>Job & Career Services</li>
+                        <li>Healthcare Enrollment</li>
+                    </ul>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Explore public services')">Learn More</button>
                 </div>
 
-                <div class="event-card" data-category="faith">
-                    <div class="event-image">🕉️</div>
-                    <div class="event-content">
-                        <h3>Hindu Society of North Carolina</h3>
-                        <div class="event-meta">
-                            <span>📍 Morrisville, NC</span>
-                            <span>Premier Hindu temple and cultural center serving the Triangle area</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Temple</span>
-                            <span class="event-tag">Organization</span>
-                        </div>
-                    </div>
+                <!-- Community Leadership -->
+                <div class="involvement-card">
+                    <h3>👨‍💼 Community Leadership</h3>
+                    <p>Take on leadership roles and shape the future of our community.</p>
+                    <ul>
+                        <li>Board Member Positions</li>
+                        <li>Committee Leadership</li>
+                        <li>Advisory Council Seats</li>
+                        <li>Event Coordination</li>
+                        <li>Fundraising Initiatives</li>
+                        <li>Partnership Development</li>
+                    </ul>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Login to apply for leadership roles')">Apply Now</button>
                 </div>
 
-                <div class="event-card" data-category="faith">
-                    <div class="event-image">👤</div>
-                    <div class="event-content">
-                        <h3>Pandit Ramesh Sharma</h3>
-                        <div class="event-meta">
-                            <span>📍 Cary, NC</span>
-                            <span>Experienced priest for all Hindu ceremonies and rituals</span>
-                        </div>
-                        <div class="event-tags">
-                            <span class="event-tag">Priest</span>
-                            <span class="event-tag">Religious Services</span>
-                        </div>
-                    </div>
+                <!-- Professional Networking -->
+                <div class="involvement-card">
+                    <h3>💼 Professional Networking</h3>
+                    <p>Build professional connections and advance your career.</p>
+                    <ul>
+                        <li>Business Networking Events</li>
+                        <li>Professional Associations</li>
+                        <li>Career Mentorship Programs</li>
+                        <li>Entrepreneurship Support</li>
+                        <li>Industry-Specific Groups</li>
+                        <li>Job Referral Network</li>
+                    </ul>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="portalApp.showAuthModal('signup')">Join Network</button>
+                </div>
+
+                <!-- Cultural Ambassadors -->
+                <div class="involvement-card">
+                    <h3>🌍 Cultural Ambassador Program</h3>
+                    <p>Share Indian culture and traditions with the broader community.</p>
+                    <ul>
+                        <li>School Presentations</li>
+                        <li>Cultural Fair Participation</li>
+                        <li>Cooking Demonstrations</li>
+                        <li>Arts & Crafts Workshops</li>
+                        <li>Dance & Music Performances</li>
+                        <li>Interfaith Dialogue</li>
+                    </ul>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Login to become a cultural ambassador')">Become Ambassador</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- AI Assistant FAB -->
-    <button class="ai-fab" onclick="toggleAI()">🤖</button>
+    <button class="ai-fab" onclick="portalApp.toggleAI()">🤖</button>
 
     <!-- AI Assistant -->
     <div class="ai-assistant" id="aiAssistant">
         <div class="ai-header">
             <h3>🤖 AI Assistant</h3>
-            <button class="ai-close" onclick="toggleAI()">×</button>
+            <button class="ai-close" onclick="portalApp.toggleAI()">×</button>
         </div>
         <div class="ai-body">
             <div class="ai-sidebar">
                 <h4>QUICK ACTIONS</h4>
-                <div class="quick-action" onclick="askAI('Show me upcoming music events')">🎵 Music Events</div>
-                <div class="quick-action" onclick="askAI('Find dance classes')">💃 Dance Classes</div>
-                <div class="quick-action" onclick="askAI('Upcoming festivals')">🪔 Festivals</div>
-                <div class="quick-action" onclick="askAI('Yoga classes near me')">🧘 Yoga Classes</div>
-                <div class="quick-action" onclick="askAI('Indian restaurants')">🍛 Restaurants</div>
-                <div class="quick-action" onclick="askAI('Cultural events this month')">📅 This Month</div>
+                <div class="quick-action" onclick="portalApp.askAI('Show me upcoming music events')">🎵 Music Events</div>
+                <div class="quick-action" onclick="portalApp.askAI('Find dance classes')">💃 Dance Classes</div>
+                <div class="quick-action" onclick="portalApp.askAI('Upcoming festivals')">🪔 Festivals</div>
+                <div class="quick-action" onclick="portalApp.askAI('Yoga classes near me')">🧘 Yoga Classes</div>
+                <div class="quick-action" onclick="portalApp.askAI('Indian restaurants')">🍛 Restaurants</div>
+                <div class="quick-action" onclick="portalApp.askAI('Volunteer opportunities')">🙋 Volunteer</div>
             </div>
             <div class="ai-chat">
                 <div class="ai-messages" id="aiMessages">
                     <div class="ai-message">
                         <div class="ai-avatar">🤖</div>
                         <div class="ai-message-content">
-                            Hi! I'm your AI assistant. I can help you find events, people, organizations, and more. Try asking me something like "Show me upcoming music events" or click a quick action!
+                            Hi! I'm your AI assistant. I can help you find events, people, organizations, volunteer opportunities, and more. Try asking me something like "Show me upcoming music events" or click a quick action!
                         </div>
                     </div>
                 </div>
                 <div class="ai-input-container">
                     <div class="ai-input-wrapper">
                         <input type="text" class="ai-input" id="aiInput" placeholder="Ask me anything...">
-                        <button class="ai-send" onclick="sendMessage()">Send</button>
+                        <button class="ai-send" onclick="portalApp.sendMessage()">Send</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let currentCategory = 'all';
-        let currentContentType = 'events';
-        let currentView = 'cards';
-
-        function switchCategory(category) {
-            currentCategory = category;
+    <!-- Authentication Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <button class="ai-close" style="position: absolute; top: 1rem; right: 1rem;" onclick="portalApp.closeAuthModal()">×</button>
             
-            // Update button states
-            const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            <h2 style="margin-bottom: 1rem; color: var(--primary-blue);">Welcome to IN Triangle Desi</h2>
             
-            // Filter ALL event cards across all sections
-            const allEventCards = document.querySelectorAll('.event-card[data-category]');
-            allEventCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
-                
-                if (category === 'all') {
-                    card.style.display = '';
-                } else {
-                    card.style.display = (cardCategory === category) ? '' : 'none';
-                }
-            });
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="portalApp.switchAuthTab('login')">Login</div>
+                <div class="auth-tab" onclick="portalApp.switchAuthTab('signup')">Sign Up</div>
+            </div>
             
-            console.log('Switched to category:', category, '- Filtered', allEventCards.length, 'cards');
-        }
-
-        function switchContentType(type) {
-            currentContentType = type;
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form" onsubmit="portalApp.handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <a href="#" style="color: var(--primary-orange); text-decoration: none;">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
             
-            // Update tab states
-            const tabs = document.querySelectorAll('.content-tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-
-            // Hide all sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
+            <!-- Signup Form -->
+            <form id="signupForm" class="auth-form" style="display: none;" onsubmit="portalApp.handleSignup(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" required placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" required placeholder="Create a strong password" minlength="8">
+                    <small style="color: var(--text-muted); font-size: 0.85rem;">Minimum 8 characters</small>
+                </div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" required>
+                        <span style="font-weight: normal; font-size: 0.9rem;">I agree to the <a href="#" style="color: var(--primary-orange);">Terms of Service</a> and <a href="#" style="color: var(--primary-orange);">Privacy Policy</a></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
             
-            // Show selected section
-            const selectedSection = document.getElementById(type + '-section');
-            if (selectedSection) {
-                selectedSection.classList.add('active');
-            }
-            
-            console.log('Switched to content type:', type);
-        }
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Or continue with</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem; justify-content: center;">
+                    <button class="btn btn-outline" onclick="alert('Google OAuth integration coming soon')">Google</button>
+                    <button class="btn btn-outline" onclick="alert('Facebook OAuth integration coming soon')">Facebook</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        function switchView(view) {
-            currentView = view;
-            
-            // Update button states
-            const buttons = document.querySelectorAll('.view-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            if (view === 'cards') {
-                document.getElementById('cards-view').style.display = 'grid';
-                document.getElementById('calendar-view').classList.remove('active');
-            } else {
-                document.getElementById('cards-view').style.display = 'none';
-                document.getElementById('calendar-view').classList.add('active');
-            }
-            
-            console.log('Switched to view:', view);
-        }
-
-        function toggleAI() {
-            const assistant = document.getElementById('aiAssistant');
-            const fab = document.querySelector('.ai-fab');
-            
-            if (assistant.classList.contains('active')) {
-                assistant.classList.remove('active');
-                fab.classList.remove('hidden');
-            } else {
-                assistant.classList.add('active');
-                fab.classList.add('hidden');
-            }
-        }
-
-        function askAI(question) {
-            const input = document.getElementById('aiInput');
-            input.value = question;
-            sendMessage();
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('aiInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-
-            const messagesContainer = document.getElementById('aiMessages');
-            
-            // Add user message
-            const userMsg = document.createElement('div');
-            userMsg.className = 'ai-message user-message';
-            userMsg.innerHTML = `
-                <div class="ai-avatar">👤</div>
-                <div class="ai-message-content">${message}</div>
-            `;
-            messagesContainer.appendChild(userMsg);
-
-            // Clear input
-            input.value = '';
-
-            // Simulate AI response
-            setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'ai-message';
-                aiMsg.innerHTML = `
-                    <div class="ai-avatar">🤖</div>
-                    <div class="ai-message-content">I found several results for "${message}". Let me show you the most relevant events and listings!</div>
-                `;
-                messagesContainer.appendChild(aiMsg);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 1000);
-
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // Enter key to send message
-        document.addEventListener('DOMContentLoaded', function() {
-            const input = document.getElementById('aiInput');
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-        });
-    </script>
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/data-loader.js"></script>
 </body>
 </html>
